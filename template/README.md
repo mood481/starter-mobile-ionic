@@ -15,7 +15,7 @@ npm run typecheck
 npm run build
 ```
 
-For a standalone output, use Node.js 24 or newer and `npm install`. No npm version
+For a standalone output, use a Node.js version compatible with Angular (24.15+ for Angular 22) and `npm install`. No npm version
 is pinned; npm is the version shipped with the selected Node installation.
 For a module inside a pnpm workspace, run the equivalent scripts through pnpm.
 
@@ -29,7 +29,14 @@ npm run build
 npm run cap:add:android
 npm run cap:add:ios
 npm run cap:sync
+npm run cap:doctor
+npm run cap:open:android  # requires Android Studio
+npm run cap:open:ios      # requires macOS and Xcode
 ```
+
+Once a native project exists, use `npm run cap:run:android` or `npm run cap:run:ios`
+to build and launch it on an available emulator/device. Build web assets and sync
+again when the web source changes. Capacitor uses `webDir: www`.
 
 Only run `cap:add:*` for platforms you intend to support. iOS tooling requires macOS
 and Xcode; Android requires the Android SDK and a suitable JDK. Track native projects
