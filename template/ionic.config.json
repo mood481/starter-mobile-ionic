@@ -1,0 +1,7 @@
+{
+  "name": "__PROJECT_SLUG__",
+  "type": "angular",
+  "integrations": {
+    "capacitor": {}
+  }
+}

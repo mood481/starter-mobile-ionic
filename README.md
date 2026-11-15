@@ -1,85 +1,53 @@
 # @mood481/starter-mobile-ionic
 
-Reusable starter for Starter Mobile Ionic.
+Minimal reusable Ionic Angular + Capacitor starter built with `@mood481/starter-toolkit`.
 
-This is a **starter-authoring repository**, not the application or module it will
-generate. Complete `starter.yaml` and the selected template sources before publishing.
+## Baseline
 
-## Contents
+- Ionic Angular 9.0.11, Angular 22.2.x, Capacitor 8.6.x, TypeScript 6.0.x.
+- Angular standalone bootstrap, router, one neutral home page.
+- Shared `template/`, mode overlays for `standalone` and `module`.
+- No application-specific backend, styling system, extra libraries, test suite, or CI/CD.
+- Standalone uses npm from Node, without an npm version pin.
+- Module expects an existing Nx/pnpm workspace; no root mutations.
+- Capacitor `appId` and `appName` are explicit render placeholders.
+- Native projects are generated on demand; `cap:doctor`, `cap:run:*`, `cap:open:*`, and `cap:sync` are available.
 
-- `starter.yaml`: starter identity, enabled modes, templates, overlays,
-  variants, and placeholder requirements.
-- `template/`: common neutral source files with `__PLACEHOLDER__` tokens.
-- `modes/standalone/overlay/`: standalone-only root files such as `.gitignore` and `.editorconfig`.
-- `modes/module/overlay/`: module-specific README and any future overrides.
+## Source layout
 
-- `variants/`: optional overlays owned by the starter.
-- `docs/examples/`: sample render requests for both canonical modes.
-- `package.json`: **authoring** tools and dependencies (pnpm).
+```text
+template/                       shared Angular/Ionic source and configuration
+modes/standalone/overlay/       standalone editor/ignore/Node files
+modes/module/overlay/           Nx project metadata and module README
+docs/examples/                 sample render requests
+```
 
-Starter ID: `starter-mobile-ionic`
-Enabled modes: `standalone, module`
-Default mode: `standalone`
-Template layout: `overlay`
+`package.json` inside `template/` has **no package manager pin**: the authoring
+repository itself continues to use pnpm, whereas a generated standalone app
+uses npm and a module uses its workspace package manager.
 
-
-The repository is created with pnpm pinned to the version bundled by the starter
-CLI. Authors may update `packageManager` and `engines.pnpm` together. This pin
-does **not** determine whether a project rendered from the starter uses npm or pnpm.
-The project package manager belongs to its template/overlay and render inputs.
-
-## Authoring workflow
-
-1. Complete `starter.yaml` and its active global and mode-specific sources.
-2. Keep source layout and required placeholders consistent for each enabled mode.
-3. Provide concrete placeholder values in the relevant render example.
-4. Install authoring dependencies and validate:
+## Local acceptance (no tests yet)
 
 ```bash
 pnpm install
 pnpm validate
-```
-
-### Standalone example
-
-```bash
 pnpm exec starter-render --input docs/examples/render.example.yaml
+cd rendered
+npm install
+npm run typecheck
+npm run build
+npm run start
 ```
 
-This creates `rendered/` in the starter repository, which is ignored and can
-be removed after inspection.
-
-### Module example
+For module rendering, first create a compatible Nx/pnpm workspace under
+`workspace/`. Then run:
 
 ```bash
-mkdir -p workspace
 pnpm exec starter-render --input docs/examples/render.module.example.yaml
 ```
 
-The `workspace/` root must already exist; the renderer creates only the
-`apps/example` target within it, never rewriting workspace-root files.
-This baseline example should be adapted to the intended host workspace.
+The module output is confined to `workspace/apps/mobile`. It does not update the
+root's pnpm workspace configuration or lockfile. The receiving workspace must manage its own dependency installation and pnpm `allowBuilds`.
 
-Both render request examples are provided for reference, but a request can
-only run if its mode is enabled in `starter.yaml`.
-The other two layouts are documented under `docs/examples/starter.*.yaml`.
-These manifests are inactive and require their matching template/overlay
-folders to be created or reorganized before switching; only the root
-`starter.yaml` is active.
-A module render does not
-change the receiving workspace's package manager or lockfile.
-
-For standalone consumer projects using npm and pnpm, the template may use
-explicit `__PACKAGE_MANAGER__` and `__PACKAGE_MANAGER_VERSION__` placeholders,
-or a pnpm base template plus an npm variant overlay. The renderer does not infer
-package-manager values or create lockfiles.
-
-## Standards and extensions
-
-Shared development standards belong to `@mood481/dev-standards`, not this toolkit.
-The starter may deliberately materialize a standards selection into its template
-or give the generated project the dependency to manage its own selection.
-
-Extension manifests are defined by the contract, but this renderer version does
-not execute non-empty render-extension requests. Do not assume extensions,
-workspace-root mutations, or starter-specific commands execute during rendering.
+This initial extraction uses the neutral Angular standalone architecture of
+`mood481/azarazam` as reference, not its product code. Tests and additional standard tooling are deliberately deferred until local validation.

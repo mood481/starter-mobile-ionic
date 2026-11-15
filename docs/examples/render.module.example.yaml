@@ -2,9 +2,11 @@ mode: module
 
 paths:
   root: workspace
-  target: apps/example
+  target: apps/mobile
 
 placeholders:
-  PROJECT_NAME: Example Module
-  PROJECT_SLUG: example-module
-  PROJECT_DESCRIPTION: Example generated module.
+  PROJECT_NAME: Example Mobile
+  PROJECT_SLUG: example-mobile
+  PROJECT_DESCRIPTION: An Ionic Angular mobile application inside an Nx workspace.
+  CAPACITOR_APP_ID: com.example.mobile
+  CAPACITOR_APP_NAME: Example Mobile

@@ -7,6 +7,10 @@ modes:
     overlay:
       path: modes/standalone/overlay
   module:
+    requires:
+      - workspace
+      - nx
+      - pnpm
     overlay:
       path: modes/module/overlay
 defaultMode: standalone
@@ -18,3 +22,5 @@ template:
       - PROJECT_NAME
       - PROJECT_SLUG
       - PROJECT_DESCRIPTION
+      - CAPACITOR_APP_ID
+      - CAPACITOR_APP_NAME

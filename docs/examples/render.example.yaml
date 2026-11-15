@@ -4,6 +4,8 @@ paths:
   root: rendered
 
 placeholders:
-  PROJECT_NAME: Example Project
-  PROJECT_SLUG: example-project
-  PROJECT_DESCRIPTION: Example generated project.
+  PROJECT_NAME: Example Mobile
+  PROJECT_SLUG: example-mobile
+  PROJECT_DESCRIPTION: A minimal Ionic Angular Capacitor application.
+  CAPACITOR_APP_ID: com.example.mobile
+  CAPACITOR_APP_NAME: Example Mobile

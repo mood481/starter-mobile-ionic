@@ -1,0 +1,42 @@
+{
+  "name": "__PROJECT_SLUG__",
+  "version": "0.1.0",
+  "private": true,
+  "description": "__PROJECT_DESCRIPTION__",
+  "type": "module",
+  "scripts": {
+    "start": "ng serve --configuration development --host 127.0.0.1 --port 8100",
+    "build": "ng build --configuration production",
+    "build:dev": "ng build --configuration development",
+    "typecheck": "tsc -p tsconfig.app.json --noEmit",
+    "cap:sync": "cap sync",
+    "cap:add:android": "cap add android",
+    "cap:add:ios": "cap add ios",
+    "cap:open:android": "cap open android",
+    "cap:open:ios": "cap open ios",
+    "cap:doctor": "cap doctor",
+    "cap:run:android": "cap run android",
+    "cap:run:ios": "cap run ios"
+  },
+  "dependencies": {
+    "@angular/common": "~22.2.6",
+    "@angular/compiler": "~22.2.6",
+    "@angular/core": "~22.2.6",
+    "@angular/forms": "~22.2.6",
+    "@angular/platform-browser": "~22.2.6",
+    "@angular/router": "~22.2.6",
+    "@ionic/angular": "~9.0.11",
+    "@capacitor/core": "~8.6.2",
+    "@capacitor/android": "~8.6.2",
+    "@capacitor/ios": "~8.6.2",
+    "rxjs": "~7.8.2",
+    "zone.js": "~0.16.1"
+  },
+  "devDependencies": {
+    "@angular/cli": "~22.2.6",
+    "@angular/compiler-cli": "~22.2.6",
+    "@capacitor/cli": "~8.6.2",
+    "typescript": "~6.0.3",
+    "@angular/build": "~22.2.6"
+  }
+}
