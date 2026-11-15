@@ -1,0 +1,9 @@
+mode: standalone
+
+paths:
+  root: rendered
+
+placeholders:
+  PROJECT_NAME: Example Project
+  PROJECT_SLUG: example-project
+  PROJECT_DESCRIPTION: Example generated project.

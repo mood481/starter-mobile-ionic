@@ -1,0 +1,10 @@
+mode: module
+
+paths:
+  root: workspace
+  target: apps/example
+
+placeholders:
+  PROJECT_NAME: Example Module
+  PROJECT_SLUG: example-module
+  PROJECT_DESCRIPTION: Example generated module.

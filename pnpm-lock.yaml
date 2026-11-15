@@ -1,0 +1,87 @@
+lockfileVersion: '9.0'
+
+settings:
+  autoInstallPeers: true
+  excludeLinksFromLockfile: false
+
+importers:
+
+  .:
+    dependencies:
+      '@mood481/starter-renderer':
+        specifier: ^0.5.1
+        version: 0.5.1
+    devDependencies:
+      '@mood481/starter-contracts':
+        specifier: ^0.5.1
+        version: 0.5.1
+      '@mood481/starter-validator':
+        specifier: ^0.5.1
+        version: 0.5.1
+
+packages:
+
+  '@mood481/starter-contracts@0.5.1':
+    resolution: {integrity: sha512-DDRYu5ZIr9tmgoK6zm8mp3QkXXVRx5HRJASzaNmo8TmRzRMLjkSV5IoKGrgQoV4mhiYvatPMzrPCtltToIH2rA==, tarball: https://git.mood481.es/api/packages/mood/npm/%40mood481%2Fstarter-contracts/-/0.5.1/starter-contracts-0.5.1.tgz}
+
+  '@mood481/starter-renderer@0.5.1':
+    resolution: {integrity: sha512-JnL972EK7oElLVcMNjw3mxLyVuvX/wxj/xQ2+Hb3otyKeBRe5Lz8SrMF8tk3ljyIxI7ybRpVFNUAkMbUkXmWhg==, tarball: https://git.mood481.es/api/packages/mood/npm/%40mood481%2Fstarter-renderer/-/0.5.1/starter-renderer-0.5.1.tgz}
+    hasBin: true
+
+  '@mood481/starter-validator@0.5.1':
+    resolution: {integrity: sha512-Er42m7lGeG+a8K9GICI2QIdiB7S75M5+mbkPJvyeYq68yYR/Iqv7Pqabuswo3f63FdlejDKmL4fWxtIJQLh/HQ==, tarball: https://git.mood481.es/api/packages/mood/npm/%40mood481%2Fstarter-validator/-/0.5.1/starter-validator-0.5.1.tgz}
+    hasBin: true
+
+  ajv@8.20.0:
+    resolution: {integrity: sha512-Thbli+OlOj+iMPYFBVBfJ3OmCAnaSyNn4M1vz9T6Gka5Jt9ba/HIR56joy65tY6kx/FCF5VXNB819Y7/GUrBGA==}
+
+  fast-deep-equal@3.1.3:
+    resolution: {integrity: sha512-f3qQ9oQy9j2AhBe/H9VC91wLmKBCCU/gDOnKNAYG5hswO7BLKj09Hc5HYNz9cGI++xlpDCIgDaitVs03ATR84Q==}
+
+  fast-uri@3.1.9:
+    resolution: {integrity: sha512-hS/0Wt3Ya043oKXs0sIxrMpKQITXhMLIrVAKKXi4gozGC9v7YRWVnXIZzjNPTO02M9BdxLCWqK1yRXgNziVyJQ==}
+
+  json-schema-traverse@1.0.0:
+    resolution: {integrity: sha512-NM8/P9n3XjXhIZn1lLhkFaACTOURQXjWhV4BA/RnOv8xvgqtqpAX9IO4mRQxSx1Rlo4tqzeqb0sOlruaOy3dug==}
+
+  require-from-string@2.0.2:
+    resolution: {integrity: sha512-Xf0nWe6RseziFMu+Ap9biiUbmplq6S9/p+7w7YXP/JBHhrUDDUhwa+vANyubuqfZWTveU//DYVGsDG7RKL/vEw==}
+    engines: {node: '>=0.10.0'}
+
+  yaml@2.9.1:
+    resolution: {integrity: sha512-3NxN8+78OdzbT7C/WjGsyfPAtJaN3FNDsWxv7Y7mcDsT/oOmgW8BpyQQFFBnvZE3j9Y2Sdz1ULFLezL7Eb2yFw==}
+    engines: {node: '>= 14.6'}
+    hasBin: true
+
+snapshots:
+
+  '@mood481/starter-contracts@0.5.1': {}
+
+  '@mood481/starter-renderer@0.5.1':
+    dependencies:
+      '@mood481/starter-contracts': 0.5.1
+      '@mood481/starter-validator': 0.5.1
+      yaml: 2.9.1
+
+  '@mood481/starter-validator@0.5.1':
+    dependencies:
+      '@mood481/starter-contracts': 0.5.1
+      ajv: 8.20.0
+      yaml: 2.9.1
+
+  ajv@8.20.0:
+    dependencies:
+      fast-deep-equal: 3.1.3
+      fast-uri: 3.1.9
+      json-schema-traverse: 1.0.0
+      require-from-string: 2.0.2
+
+  fast-deep-equal@3.1.3: {}
+
+  fast-uri@3.1.9: {}
+
+  json-schema-traverse@1.0.0: {}
+
+  require-from-string@2.0.2: {}
+
+  yaml@2.9.1: {}

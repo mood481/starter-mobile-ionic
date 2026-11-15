@@ -1,0 +1,16 @@
+schemaVersion: 1
+id: starter-mobile-ionic
+name: Starter Mobile Ionic
+
+modes:
+  standalone: {}
+  module: {}
+defaultMode: standalone
+
+template:
+  path: template
+  placeholders:
+    required:
+      - PROJECT_NAME
+      - PROJECT_SLUG
+      - PROJECT_DESCRIPTION
