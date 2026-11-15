@@ -2,10 +2,15 @@
 
 __PROJECT_DESCRIPTION__
 
-This project was generated as a module inside an existing workspace.
+Ionic 9 + Angular 21 + Capacitor 8 module generated in an existing workspace.
 
-- Module name: `__PROJECT_NAME__`
-- Module slug: `__PROJECT_SLUG__`
+This output is deliberately confined to its module directory. Rendering does
+not update the workspace's package manager, lockfile, root manifest or Nx setup.
 
-This example overlay replaces the common README as a complete file.
-The renderer does not modify the workspace root or its package manager.
+The host is expected to be compatible with Nx and pnpm, to include the module
+in `pnpm-workspace.yaml`, and to install dependencies at the workspace root.
+Use `pnpm --dir apps/mobile run build` (adjust the module path as needed), or
+an Nx target when the host discovers this project.
+
+Native projects are not pre-generated. Build web assets before running `cap add`.
+Capacitor app ID: `__CAPACITOR_APP_ID__`.

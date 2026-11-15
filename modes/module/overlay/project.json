@@ -1,0 +1,25 @@
+{
+  "name": "__PROJECT_SLUG__",
+  "projectType": "application",
+  "tags": [
+    "type:app",
+    "platform:mobile",
+    "framework:ionic"
+  ],
+  "targets": {
+    "build": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "pnpm run build",
+        "cwd": "{projectRoot}"
+      }
+    },
+    "typecheck": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "pnpm run typecheck",
+        "cwd": "{projectRoot}"
+      }
+    }
+  }
+}

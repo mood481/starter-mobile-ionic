@@ -2,26 +2,43 @@
 
 __PROJECT_DESCRIPTION__
 
-## Purpose
+Minimal Ionic 9 + Angular 21 + Capacitor 8 application. The same sources support
+standalone and module rendering; the selected overlay provides mode-specific files.
 
-This project was generated from a reusable starter. Replace this section with
-the purpose and boundaries of the generated project.
+## Local development
 
-## Getting started
+With dependencies installed by your workspace package manager:
 
-Use the toolchain and commands provided by the selected starter to install,
-validate, test, and build this project.
+```bash
+npm run start
+npm run typecheck
+npm run build
+```
 
-## Project identity
+For a standalone output, use Node.js 24 or newer and `npm install`. No npm version
+is pinned; npm is the version shipped with the selected Node installation.
+For a module inside a pnpm workspace, run the equivalent scripts through pnpm.
 
-- Name: `__PROJECT_NAME__`
-- Slug: `__PROJECT_SLUG__`
+## Native projects
 
-## Structure
+Native Android/iOS directories are intentionally not pre-generated. After a
+successful web build, run:
 
-Document the important directories and entry points introduced by this
-starter. Keep technology-specific conventions close to the code they govern.
+```bash
+npm run build
+npm run cap:add:android
+npm run cap:add:ios
+npm run cap:sync
+```
 
-## Further documentation
+Only run `cap:add:*` for platforms you intend to support. iOS tooling requires macOS
+and Xcode; Android requires the Android SDK and a suitable JDK. Track native projects
+in Git after generation if your delivery workflow needs reproducible native changes.
 
-Add project-specific documentation under `docs/` as the project grows.
+Capacitor identity:
+
+- App ID: `__CAPACITOR_APP_ID__`
+- App name: `__CAPACITOR_APP_NAME__`
+
+No backend, authentication, localization, extra Capacitor plugins, or CI/CD
+configuration is included in this baseline.
