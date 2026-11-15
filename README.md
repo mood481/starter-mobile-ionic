@@ -4,13 +4,14 @@ Minimal reusable Ionic Angular + Capacitor starter built with `@mood481/starter-
 
 ## Baseline
 
-- Ionic Angular 9.0.11, Angular 21.2.x, Capacitor 8.6.x, TypeScript 5.9.x.
+- Ionic Angular 9.0.11, Angular 22.2.x, Capacitor 8.6.x, TypeScript 6.0.x.
 - Angular standalone bootstrap, router, one neutral home page.
 - Shared `template/`, mode overlays for `standalone` and `module`.
 - No application-specific backend, styling system, extra libraries, test suite, or CI/CD.
 - Standalone uses npm from Node, without an npm version pin.
 - Module expects an existing Nx/pnpm workspace; no root mutations.
 - Capacitor `appId` and `appName` are explicit render placeholders.
+- Native projects are generated on demand; `cap:doctor`, `cap:run:*`, `cap:open:*`, and `cap:sync` are available.
 
 ## Source layout
 
@@ -46,9 +47,7 @@ pnpm exec starter-render --input docs/examples/render.module.example.yaml
 ```
 
 The module output is confined to `workspace/apps/mobile`. It does not update the
-root's pnpm workspace configuration or lockfile. See `docs/local-smoke.md` for
-both commands and validation limits.
+root's pnpm workspace configuration or lockfile. The receiving workspace must manage its own dependency installation and pnpm `allowBuilds`.
 
 This initial extraction uses the neutral Angular standalone architecture of
-`mood481/azarazam` as reference, not its product code. Tests, standard tooling,
-and Angular 22 are deliberately deferred until the local baseline is verified.
+`mood481/azarazam` as reference, not its product code. Tests and additional standard tooling are deliberately deferred until local validation.
