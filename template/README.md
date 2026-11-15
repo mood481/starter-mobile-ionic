@@ -2,7 +2,7 @@
 
 __PROJECT_DESCRIPTION__
 
-Minimal Ionic 9 + Angular 21 + Capacitor 8 application. The same sources support
+Minimal Ionic 9 + Angular 22 + Capacitor 8 application. The same sources support
 standalone and module rendering; the selected overlay provides mode-specific files.
 
 ## Local development
