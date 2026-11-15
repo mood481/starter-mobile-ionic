@@ -13,7 +13,10 @@
     "cap:add:android": "cap add android",
     "cap:add:ios": "cap add ios",
     "cap:open:android": "cap open android",
-    "cap:open:ios": "cap open ios"
+    "cap:open:ios": "cap open ios",
+    "cap:doctor": "cap doctor",
+    "cap:run:android": "cap run android",
+    "cap:run:ios": "cap run ios"
   },
   "dependencies": {
     "@angular/common": "~21.2.8",
