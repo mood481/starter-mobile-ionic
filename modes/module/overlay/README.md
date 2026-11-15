@@ -2,7 +2,7 @@
 
 __PROJECT_DESCRIPTION__
 
-Ionic 9 + Angular 21 + Capacitor 8 module generated in an existing workspace.
+Ionic 9 + Angular 22 + Capacitor 8 module generated in an existing workspace.
 
 This output is deliberately confined to its module directory. Rendering does
 not update the workspace's package manager, lockfile, root manifest or Nx setup.
