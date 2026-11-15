@@ -9,7 +9,9 @@ generate. Complete `starter.yaml` and the selected template sources before publi
 
 - `starter.yaml`: starter identity, enabled modes, templates, overlays,
   variants, and placeholder requirements.
-- `templates/standalone/` and `templates/module/`: independent neutral source trees.
+- `template/`: common neutral source files with `__PLACEHOLDER__` tokens.
+- `modes/standalone/overlay/`: standalone-only root files such as `.gitignore` and `.editorconfig`.
+- `modes/module/overlay/`: module-specific README and any future overrides.
 
 - `variants/`: optional overlays owned by the starter.
 - `docs/examples/`: sample render requests for both canonical modes.
@@ -18,7 +20,7 @@ generate. Complete `starter.yaml` and the selected template sources before publi
 Starter ID: `starter-mobile-ionic`
 Enabled modes: `standalone, module`
 Default mode: `standalone`
-Template layout: `split`
+Template layout: `overlay`
 
 
 The repository is created with pnpm pinned to the version bundled by the starter
@@ -28,7 +30,7 @@ The project package manager belongs to its template/overlay and render inputs.
 
 ## Authoring workflow
 
-1. Complete `starter.yaml` and the sources under `template/` or mode-specific paths.
+1. Complete `starter.yaml` and its active global and mode-specific sources.
 2. Keep source layout and required placeholders consistent for each enabled mode.
 3. Provide concrete placeholder values in the relevant render example.
 4. Install authoring dependencies and validate:

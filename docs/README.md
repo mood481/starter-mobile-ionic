@@ -22,12 +22,12 @@ requirements. Per-mode required lists replace global requirements (including wit
 
 ## Dual-mode template layouts
 
-With both modes enabled, `starter new` generates `split` templates by default.
+With both modes enabled, `starter new` generates `overlay` sources by default.
 Use `--template-base common|overlay|split` to choose explicitly:
 
 - `split`: independent `templates/standalone/` and `templates/module/`.
 - `common`: one inherited global `template/`.
-- `overlay`: global `template/` and `modes/module/overlay/`.
+- `overlay`: global `template/`, `modes/standalone/overlay/`, and `modes/module/overlay/`. The neutral README starts in the common base; standalone-specific `.gitignore`/`.editorconfig` are excluded from module outputs.
 
 Two inactive manifests under `docs/examples/starter.<layout>.yaml` illustrate
 the alternative layouts. Switching requires moving or creating their source
