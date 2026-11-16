@@ -1,0 +1,62 @@
+name: Publish starter package
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+    inputs:
+      prerelease:
+        description: 'Prerelease suffix (devel.0, alpha.0, beta.0 or rc.0)'
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+jobs:
+  publish:
+    runs-on: ubuntu-24.04
+    env:
+      GITEA_TOKEN: ${{ secrets.GITEA_TOKEN }}
+      GITEA_NPM_REGISTRY: ${{ vars.GITEA_NPM_REGISTRY || 'https://git.mood481.es/api/packages/mood/npm/' }}
+      PUBLISH_RELEASE: ${{ github.event_name == 'push' && github.ref_type == 'tag' }}
+      PUBLISH_PRERELEASE: ${{ inputs.prerelease || '' }}
+    steps:
+      - name: Check out release source
+        uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd # v5.0.1
+
+      - name: Validate Gitea npm registry
+        shell: bash
+        run: |
+          if ! [[ "$GITEA_NPM_REGISTRY" =~ ^https://git[.]mood481[.]es/api/packages/[A-Za-z0-9_-]+/npm/$ ]]; then
+            echo "Invalid GITEA_NPM_REGISTRY: expected an approved Gitea npm endpoint." >&2
+            exit 1
+          fi
+
+      - name: Set up Node.js
+        uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5.0.0
+        with:
+          node-version: 24
+          package-manager-cache: false
+          registry-url: ${{ env.GITEA_NPM_REGISTRY }}
+          scope: '@mood481'
+
+      - name: Enable pnpm
+        run: corepack enable
+
+      - name: Install authoring dependencies
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITEA_TOKEN }}
+        run: pnpm install --frozen-lockfile --ignore-scripts
+
+      - name: Validate starter
+        run: pnpm validate
+
+      - name: Validate release plan
+        run: pnpm exec starter-publish plan
+
+      - name: Publish to Gitea
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITEA_TOKEN }}
+        run: pnpm exec starter-publish publish

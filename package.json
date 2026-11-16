@@ -18,10 +18,20 @@
   },
   "devDependencies": {
     "@mood481/starter-contracts": "^0.5.1",
-    "@mood481/starter-validator": "^0.5.1"
+    "@mood481/starter-validator": "^0.5.1",
+    "@mood481/starter-publish-tools": "^0.1.0"
   },
   "publishConfig": {
     "access": "public"
   },
-  "bin": "./bin/starter-render.mjs"
+  "bin": "./bin/starter-render.mjs",
+  "files": [
+    "starter.yaml",
+    "bin/**",
+    "README.md",
+    "template/**",
+    "modes/standalone/overlay/**",
+    "modes/module/overlay/**",
+    "modes/standalone/overlay/.gitignore"
+  ]
 }
