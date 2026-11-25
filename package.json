@@ -1,37 +1,37 @@
 {
-  "name": "@mood481/starter-mobile-ionic",
-  "version": "0.1.0",
-  "private": false,
-  "description": "Reusable starter for Starter Mobile Ionic.",
-  "type": "module",
-  "packageManager": "pnpm@11.25.0",
-  "engines": {
-    "node": ">=24.20.0",
-    "pnpm": ">=11.0.0"
-  },
-  "scripts": {
-    "starter:validate": "starter-validate --type starter starter.yaml",
-    "validate": "starter-validate --type starter starter.yaml"
-  },
-  "dependencies": {
-    "@mood481/starter-renderer": "^0.5.1"
-  },
-  "devDependencies": {
-    "@mood481/starter-contracts": "^0.5.1",
-    "@mood481/starter-validator": "^0.5.1",
-    "@mood481/starter-publish-tools": "^0.1.0"
-  },
-  "publishConfig": {
-    "access": "public"
-  },
-  "bin": "./bin/starter-render.mjs",
-  "files": [
-    "starter.yaml",
-    "bin/**",
-    "README.md",
-    "template/**",
-    "modes/standalone/overlay/**",
-    "modes/module/overlay/**",
-    "modes/standalone/overlay/.gitignore"
-  ]
+    "name": "@mood481/starter-mobile-ionic",
+    "version": "0.1.0",
+    "private": false,
+    "description": "Reusable starter for Starter Mobile Ionic.",
+    "type": "module",
+    "packageManager": "pnpm@11.25.0",
+    "engines": {
+        "node": ">=24.20.0",
+        "pnpm": ">=11.0.0"
+    },
+    "scripts": {
+        "starter:validate": "starter-validate --type starter starter.yaml",
+        "validate": "starter-validate --type starter starter.yaml"
+    },
+    "dependencies": {
+        "@mood481/starter-renderer": "^0.5.2"
+    },
+    "devDependencies": {
+        "@mood481/starter-contracts": "^0.5.1",
+        "@mood481/starter-validator": "^0.5.1",
+        "@mood481/starter-publish-tools": "^0.1.1"
+    },
+    "publishConfig": {
+        "access": "public"
+    },
+    "bin": "./bin/starter-render.mjs",
+    "files": [
+        "starter.yaml",
+        "bin/**",
+        "README.md",
+        "template/**",
+        "modes/standalone/overlay/**",
+        "modes/module/overlay/**",
+        "modes/standalone/overlay/.gitignore"
+    ]
 }
