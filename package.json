@@ -14,7 +14,7 @@
         "validate": "starter-validate --type starter starter.yaml"
     },
     "dependencies": {
-        "@mood481/starter-renderer": "^0.5.2"
+        "@mood481/starter-renderer": "^0.5.3"
     },
     "devDependencies": {
         "@mood481/starter-contracts": "^0.5.1",

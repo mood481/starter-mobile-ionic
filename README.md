@@ -7,16 +7,19 @@ Minimal reusable Ionic Angular + Capacitor starter built with `@mood481/starter-
 - Ionic Angular 9.0.11, Angular 22.2.x, Capacitor 8.6.x, TypeScript 6.0.x.
 - Angular standalone bootstrap, router, one neutral home page.
 - Shared `template/`, mode overlays for `standalone` and `module`.
-- No application-specific backend, styling system, extra libraries, test suite, or CI/CD.
+- No application-specific backend, styling system, web test suite, or CI/CD.
 - Standalone uses npm from Node, without an npm version pin.
 - Module expects an existing Nx/pnpm workspace; no root mutations.
 - Capacitor `appId` and `appName` are explicit render placeholders.
-- Native projects are generated on demand; `cap:doctor`, `cap:run:*`, `cap:open:*`, and `cap:sync` are available.
+- Android and iOS (SPM) projects are included, with fixed Capacitor 8 dependencies.
+- Build web assets and run `sync:android` or `sync:ios` before native builds.
+- Android uses a fixed initial Java namespace, `starter.mood481.studio`; the consumer README documents how to rename it.
+- Capacitor app, browser, device, haptics, keyboard, network and splash-screen plugins are included.
 
 ## Source layout
 
 ```text
-template/                       shared Angular/Ionic source and configuration
+template/                       shared Angular/Ionic source, configuration and native projects
 modes/standalone/overlay/       standalone editor/ignore/Node files
 modes/module/overlay/           Nx project metadata and module README
 docs/examples/                 sample render requests

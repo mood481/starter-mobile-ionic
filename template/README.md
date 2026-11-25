@@ -21,31 +21,41 @@ For a module inside a pnpm workspace, run the equivalent scripts through pnpm.
 
 ## Native projects
 
-Native Android/iOS directories are intentionally not pre-generated. After a
-successful web build, run:
+Android and iOS (Swift Package Manager) are included. Do not run `cap add`.
+After installing dependencies, build the web assets and sync the target platform:
 
 ```bash
 npm run build
-npm run cap:add:android
-npm run cap:add:ios
-npm run cap:sync
-npm run cap:doctor
-npm run cap:open:android  # requires Android Studio
-npm run cap:open:ios      # requires macOS and Xcode
+npm run sync:android
+npm run sync:ios        # macOS with Xcode
+npm run doctor
+npm run open:android    # Android Studio
+npm run open:ios        # macOS with Xcode
 ```
 
-Once a native project exists, use `npm run cap:run:android` or `npm run cap:run:ios`
-to build and launch it on an available emulator/device. Build web assets and sync
-again when the web source changes. Capacitor uses `webDir: www`.
+Use `npm run sync` when both native toolchains are available; use
+`npm run run:android` or `npm run run:ios` to launch on a device or emulator.
+For module mode, use the equivalent `pnpm run` commands from the module directory.
+Build and sync again after web or plugin changes. The web output is `www`.
+Generated web copies, Capacitor runtime configuration and Cordova compatibility
+projects are intentionally not tracked; sync restores them before native builds.
 
-Only run `cap:add:*` for platforms you intend to support. iOS tooling requires macOS
-and Xcode; Android requires the Android SDK and a suitable JDK. Track native projects
-in Git after generation if your delivery workflow needs reproducible native changes.
+The included Capacitor plugins are app, browser, device, haptics, keyboard,
+network and splash-screen. Keyboard uses default configuration. SystemBars is
+available from Capacitor core. Use `npm run assets` (or `pnpm run assets`) after
+adding your own source artwork in `assets/`; neutral native resources are included.
 
 Capacitor identity:
 
-- App ID: `__CAPACITOR_APP_ID__`
-- App name: `__CAPACITOR_APP_NAME__`
+- App ID: `__CAPACITOR_APP_ID__` (Android applicationId and iOS bundle identifier).
+- App name: `__CAPACITOR_APP_NAME__`.
 
-No backend, authentication, localization, extra Capacitor plugins, or CI/CD
-configuration is included in this baseline.
+The Android Java namespace initially uses `starter.mood481.studio`, independently
+of the application ID. The consumer should rename it to their own namespace:
+change `namespace` in `android/app/build.gradle`, move the Java package directories
+under `src/main/java`, `src/test/java` and `src/androidTest/java`, and update their
+`package` declarations. The manifest uses `.MainActivity` relative to the Gradle
+namespace; the FileProvider authority uses the application ID. Keep these identities
+consistent when refactoring and sync before building.
+
+No backend, authentication, localization or CI/CD configuration is included.

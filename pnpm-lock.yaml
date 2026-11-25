@@ -9,8 +9,8 @@ importers:
   .:
     dependencies:
       '@mood481/starter-renderer':
-        specifier: ^0.5.2
-        version: 0.5.2
+        specifier: ^0.5.3
+        version: 0.5.3
     devDependencies:
       '@mood481/starter-contracts':
         specifier: ^0.5.1
@@ -31,8 +31,8 @@ packages:
     resolution: {integrity: sha512-SMvDuvz7dgad+2tI/o6wVpF6K82keZ2KK82xrlWfY8ug+np1fjdj/qDNn9Sr52JgWSPfL9r3XwxmByvwHVSbow==, tarball: https://git.mood481.es/api/packages/mood/npm/%40mood481%2Fstarter-publish-tools/-/0.1.1/starter-publish-tools-0.1.1.tgz}
     hasBin: true
 
-  '@mood481/starter-renderer@0.5.2':
-    resolution: {integrity: sha512-U+zMZCWJTEKVoEnYgJniKVrSDT0/vjJhQjL5xYmRpARb6ZIejBGQKo9f2ji/FF/nLaiPD7kGz0IomxhkOJ2/sQ==, tarball: https://git.mood481.es/api/packages/mood/npm/%40mood481%2Fstarter-renderer/-/0.5.2/starter-renderer-0.5.2.tgz}
+  '@mood481/starter-renderer@0.5.3':
+    resolution: {integrity: sha512-B1pJYS6VSMcv/auTvwMV+HLASs3tyqq74Fse3NjqzuBSMclD+O1B3QFTtG47Mtx69DHNx5NAHNxZDOAWQm+pUQ==, tarball: https://git.mood481.es/api/packages/mood/npm/%40mood481%2Fstarter-renderer/-/0.5.3/starter-renderer-0.5.3.tgz}
     hasBin: true
 
   '@mood481/starter-validator@0.5.1':
@@ -68,7 +68,7 @@ snapshots:
     dependencies:
       yaml: 2.9.1
 
-  '@mood481/starter-renderer@0.5.2':
+  '@mood481/starter-renderer@0.5.3':
     dependencies:
       '@mood481/starter-contracts': 0.5.1
       '@mood481/starter-validator': 0.5.1
