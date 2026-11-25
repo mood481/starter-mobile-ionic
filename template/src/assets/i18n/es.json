@@ -1,0 +1,30 @@
+{
+  "home": {
+    "heading": "Aplicación preparada",
+    "ready": "La base Ionic, Angular y Capacitor está lista.",
+    "examples": "Ver ejemplos"
+  },
+  "examples": {
+    "title": "Ejemplos",
+    "connectivity": "Conectividad",
+    "network": {
+      "unknown": "Comprobando conexión",
+      "online": "Conectado",
+      "offline": "Sin conexión"
+    },
+    "feedback": "Mensajes y confirmaciones",
+    "showToast": "Mostrar aviso",
+    "showConfirmation": "Pedir confirmación",
+    "toastMessage": "Este es un aviso de ejemplo.",
+    "confirmTitle": "Confirmación",
+    "confirmMessage": "¿Quieres confirmar esta acción?",
+    "confirmed": "Acción confirmada",
+    "emptyTitle": "Sin contenido",
+    "emptyDescription": "Ejemplo de estado vacío reutilizable.",
+    "loading": "Cargando…"
+  },
+  "common": {
+    "cancel": "Cancelar",
+    "accept": "Aceptar"
+  }
+}

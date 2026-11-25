@@ -38,7 +38,8 @@
         "@capacitor/haptics": "8.0.2",
         "@capacitor/device": "8.0.3",
         "@capacitor/browser": "8.0.5",
-        "@capacitor/splash-screen": "8.0.2"
+        "@capacitor/splash-screen": "8.0.2",
+        "@jsverse/transloco": "8.4.0"
     },
     "devDependencies": {
         "@angular/cli": "~22.2.6",

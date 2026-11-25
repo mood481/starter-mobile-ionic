@@ -1,0 +1,30 @@
+{
+  "home": {
+    "heading": "Application ready",
+    "ready": "The Ionic, Angular and Capacitor foundation is ready.",
+    "examples": "View examples"
+  },
+  "examples": {
+    "title": "Examples",
+    "connectivity": "Connectivity",
+    "network": {
+      "unknown": "Checking connection",
+      "online": "Online",
+      "offline": "Offline"
+    },
+    "feedback": "Messages and confirmations",
+    "showToast": "Show toast",
+    "showConfirmation": "Request confirmation",
+    "toastMessage": "This is an example notification.",
+    "confirmTitle": "Confirmation",
+    "confirmMessage": "Do you want to confirm this action?",
+    "confirmed": "Action confirmed",
+    "emptyTitle": "No content",
+    "emptyDescription": "Reusable empty-state example.",
+    "loading": "Loading…"
+  },
+  "common": {
+    "cancel": "Cancel",
+    "accept": "OK"
+  }
+}

@@ -1,0 +1,37 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/" />
+    </ion-buttons>
+    <ion-title>{{ 'examples.title' | transloco }}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <main class="examples">
+    <section>
+      <h2>{{ 'examples.connectivity' | transloco }}</h2>
+      <p aria-live="polite">
+        {{ ('examples.network.' + connectivity.status()) | transloco }}
+      </p>
+    </section>
+    <section>
+      <h2>{{ 'examples.feedback' | transloco }}</h2>
+      <ion-button (click)="showToast()">
+        {{ 'examples.showToast' | transloco }}
+      </ion-button>
+      <ion-button fill="outline" (click)="showConfirmation()">
+        {{ 'examples.showConfirmation' | transloco }}
+      </ion-button>
+    </section>
+    <section>
+      <app-empty-state
+        [title]="'examples.emptyTitle' | transloco"
+        [description]="'examples.emptyDescription' | transloco"
+      />
+    </section>
+    <section>
+      <app-loading-state [label]="'examples.loading' | transloco" />
+    </section>
+  </main>
+</ion-content>

@@ -23,7 +23,14 @@
             "styles": [
               "src/styles.scss"
             ],
-            "browser": "src/main.ts"
+            "browser": "src/main.ts",
+            "assets": [
+              {
+                "glob": "**/*",
+                "input": "src/assets",
+                "output": "assets"
+              }
+            ]
           },
           "configurations": {
             "production": {

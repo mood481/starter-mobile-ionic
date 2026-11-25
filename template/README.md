@@ -34,7 +34,7 @@ npm run open:ios        # macOS with Xcode
 ```
 
 Use `npm run sync` when both native toolchains are available; use
-`npm run run:android` or `npm run run:ios` to launch on a device or emulator.
+`npm run start:android` or `npm run start:ios` to launch on a device or emulator.
 For module mode, use the equivalent `pnpm run` commands from the module directory.
 Build and sync again after web or plugin changes. The web output is `www`.
 Generated web copies, Capacitor runtime configuration and Cordova compatibility
@@ -58,4 +58,4 @@ under `src/main/java`, `src/test/java` and `src/androidTest/java`, and update th
 namespace; the FileProvider authority uses the application ID. Keep these identities
 consistent when refactoring and sync before building.
 
-No backend, authentication, localization or CI/CD configuration is included.
+The Angular foundation includes lazy routes, contextual logging, a plain optional\nBaseMain class, app constants, a connectivity signal service, Ionic feedback\nhelpers, empty/loading states and Transloco dictionaries in Spanish and English.\nChange defaults and add translations in `src/app/app.constants.ts` and\n`src/assets/i18n/`. These translations are copied into `www/assets/i18n/` on build.\n\nThe `examples` page demonstrates these utilities; replace or remove it when\nbuilding a product. The core package does not add storage, advertising tracking,\nthird-party error reporting or authentication. No CI/CD configuration is included.

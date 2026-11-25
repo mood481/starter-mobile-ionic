@@ -1,13 +1,16 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>__PROJECT_NAME__</ion-title>
+    <ion-title>{{ appName }}</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content class="ion-padding">
   <main class="home">
-    <h1>__PROJECT_NAME__</h1>
+    <h1>{{ 'home.heading' | transloco }}</h1>
     <p>__PROJECT_DESCRIPTION__</p>
-    <p>The Ionic, Angular and Capacitor foundation is ready.</p>
+    <p>{{ 'home.ready' | transloco }}</p>
+    <ion-button [routerLink]="examplesPath">
+      {{ 'home.examples' | transloco }}
+    </ion-button>
   </main>
 </ion-content>
