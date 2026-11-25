@@ -11,12 +11,15 @@
     "typecheck": "tsc -p tsconfig.app.json --noEmit",
     "cap:sync": "cap sync",
     "cap:add:android": "cap add android",
-    "cap:add:ios": "cap add ios",
+    "cap:add:ios": "cap add ios --packagemanager SPM",
     "cap:open:android": "cap open android",
     "cap:open:ios": "cap open ios",
     "cap:doctor": "cap doctor",
     "cap:run:android": "cap run android",
-    "cap:run:ios": "cap run ios"
+    "cap:run:ios": "cap run ios",
+    "cap:sync:android": "cap sync android",
+    "cap:sync:ios": "cap sync ios",
+    "cap:assets": "capacitor-assets generate"
   },
   "dependencies": {
     "@angular/common": "~22.2.6",
@@ -26,17 +29,25 @@
     "@angular/platform-browser": "~22.2.6",
     "@angular/router": "~22.2.6",
     "@ionic/angular": "~9.0.11",
-    "@capacitor/core": "~8.6.2",
-    "@capacitor/android": "~8.6.2",
-    "@capacitor/ios": "~8.6.2",
+    "@capacitor/core": "8.6.2",
+    "@capacitor/android": "8.6.2",
+    "@capacitor/ios": "8.6.2",
     "rxjs": "~7.8.2",
-    "zone.js": "~0.16.1"
+    "zone.js": "~0.16.1",
+    "@capacitor/app": "^8.0.0",
+    "@capacitor/keyboard": "^8.0.0",
+    "@capacitor/network": "^8.0.0",
+    "@capacitor/haptics": "^8.0.0",
+    "@capacitor/device": "^8.0.0",
+    "@capacitor/browser": "^8.0.0",
+    "@capacitor/splash-screen": "^8.0.0"
   },
   "devDependencies": {
     "@angular/cli": "~22.2.6",
     "@angular/compiler-cli": "~22.2.6",
-    "@capacitor/cli": "~8.6.2",
+    "@capacitor/cli": "8.6.2",
     "typescript": "~6.0.3",
-    "@angular/build": "~22.2.6"
+    "@angular/build": "~22.2.6",
+    "@capacitor/assets": "3.0.5"
   }
 }
