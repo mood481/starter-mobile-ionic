@@ -17,7 +17,12 @@
         "cap:doctor": "cap doctor",
         "start:android": "cap run android",
         "start:ios": "cap run ios",
-        "assets": "capacitor-assets generate"
+        "assets": "capacitor-assets generate",
+        "test": "npm run test:unit",
+        "test:unit": "ng test --watch=false",
+        "test:unit:watch": "ng test",
+        "test:e2e": "playwright test --config=test/playwright.config.ts",
+        "test:e2e:ui": "playwright test --config=test/playwright.config.ts --ui"
     },
     "dependencies": {
         "@angular/common": "~22.2.6",
@@ -47,6 +52,9 @@
         "@capacitor/cli": "8.6.2",
         "typescript": "~6.0.3",
         "@angular/build": "~22.2.6",
-        "@capacitor/assets": "3.0.5"
+        "@capacitor/assets": "3.0.5",
+        "vitest": "4.0.18",
+        "jsdom": "27.4.0",
+        "@playwright/test": "1.65.1"
     }
 }
