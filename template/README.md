@@ -90,3 +90,15 @@ Tests live under `test/unit` and `test/e2e`. The web E2E suite does not
 test native Capacitor behavior, signing or app-store distribution. Run
 `npm run typecheck` and `npm run build` separately. In a pnpm workspace,
 use the equivalent `pnpm run` commands from the module directory.
+
+## Codemagic distribution
+
+The standalone template includes a root `codemagic.yaml`; for module mode,
+merge `codemagic/codemagic.yaml` manually into the workspace root.
+Review `docs/codemagic.md` before connecting signing credentials or enabling
+beta tags. Beta tags upload signed builds to the stores using configurable
+project distribution settings; release tags build and validate only. Store
+upload for releases requires a separate manually approved workflow started
+from the exact tag.
+
+Validate release identity locally with `npm run test:release` (or pnpm).

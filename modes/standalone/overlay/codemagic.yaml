@@ -1,0 +1,221 @@
+# Codemagic template. See docs/codemagic.md before enabling store credentials.
+definitions:
+  scripts:
+    - &resolve
+      name: Validate release identity
+      script: node "$MOBILE_APP_DIR/scripts/ci/resolve-mobile-release.mjs"
+    - &install
+      name: Install dependencies
+      script: |
+        set -eu
+        if [ "$MOBILE_PACKAGE_MANAGER" = npm ]; then
+          test -f "$MOBILE_APP_DIR/package-lock.json" || { echo "Commit package-lock.json"; exit 1; }
+          (cd "$MOBILE_APP_DIR" && npm ci)
+        else
+          test -f pnpm-lock.yaml || { echo "Commit host pnpm-lock.yaml"; exit 1; }
+          npm install --global pnpm@11.25.0
+          pnpm install --frozen-lockfile
+        fi
+    - &web
+      name: Check and build web application
+      script: |
+        set -eu
+        cd "$MOBILE_APP_DIR"
+        if [ "$MOBILE_PACKAGE_MANAGER" = npm ]; then
+          npm run typecheck
+          npm run test:unit
+          npm run test:release
+          npx playwright install chromium
+          npm run test:e2e
+          npm run build
+        else
+          pnpm run typecheck
+          pnpm run test:unit
+          pnpm run test:release
+          pnpm exec playwright install chromium
+          pnpm run test:e2e
+          pnpm run build
+        fi
+    - &sync
+      name: Sync native platforms
+      script: |
+        set -eu
+        cd "$MOBILE_APP_DIR"
+        if [ "$MOBILE_PACKAGE_MANAGER" = npm ]; then
+          npm run sync:android
+          npm run sync:ios
+        else
+          pnpm run sync:android
+          pnpm run sync:ios
+        fi
+    - &android_sign
+      name: Validate Android signing
+      script: |
+        set -eu
+        if [ -n "${CM_KEYSTORE_PATH:-}" ]; then
+          ANDROID_KEYSTORE_PATH="$CM_KEYSTORE_PATH"
+        elif [ -n "${CM_KEYSTORE:-}" ]; then
+          ANDROID_KEYSTORE_PATH="$CM_BUILD_DIR/mobile-release.keystore"
+          printf '%s' "$CM_KEYSTORE" | base64 --decode > "$ANDROID_KEYSTORE_PATH"
+        else
+          echo "Missing Android keystore"; exit 1
+        fi
+        : "${CM_KEYSTORE_PASSWORD:?missing keystore password}"
+        : "${CM_KEY_ALIAS:?missing key alias}"
+        : "${CM_KEY_PASSWORD:?missing key password}"
+        echo "ANDROID_KEYSTORE_PATH=$ANDROID_KEYSTORE_PATH" >> "$CM_ENV"
+    - &android_build
+      name: Build signed Android bundle
+      script: |
+        set -eu
+        cd "$MOBILE_APP_DIR/android"
+        ./gradlew bundleRelease \
+          -Pandroid.injected.signing.store.file="$ANDROID_KEYSTORE_PATH" \
+          -Pandroid.injected.signing.store.password="$CM_KEYSTORE_PASSWORD" \
+          -Pandroid.injected.signing.key.alias="$CM_KEY_ALIAS" \
+          -Pandroid.injected.signing.key.password="$CM_KEY_PASSWORD" \
+          -PversionName="$VERSION_NAME" \
+          -PversionCode="$VERSION_CODE"
+        test -f app/build/outputs/bundle/release/app-release.aab
+        jarsigner -verify app/build/outputs/bundle/release/app-release.aab
+    - &ios_sign
+      name: Prepare iOS signing profiles
+      script: |
+        set -eu
+        : "${APP_STORE_CONNECT_PRIVATE_KEY:?missing private key}"
+        : "${APP_STORE_CONNECT_KEY_IDENTIFIER:?missing key identifier}"
+        : "${APP_STORE_CONNECT_ISSUER_ID:?missing issuer ID}"
+        : "${CERTIFICATE_PRIVATE_KEY:?missing certificate private key}"
+        app-store-connect fetch-signing-files "$IOS_BUNDLE_ID" --type IOS_APP_STORE --create
+        keychain initialize
+        keychain add-certificates
+        xcode-project use-profiles
+    - &ios_build
+      name: Build signed iOS IPA with SPM
+      script: |
+        set -eu
+        (cd "$MOBILE_APP_DIR/ios/App" && agvtool new-marketing-version "$VERSION_NAME" && agvtool new-version -all "$VERSION_CODE")
+        xcode-project build-ipa --project "$MOBILE_APP_DIR/ios/App/App.xcodeproj" --scheme App
+
+workflows:
+  mobile-beta:
+    name: Mobile Beta (Store Test Channels)
+    max_build_duration: 120
+    instance_type: mac_mini_m2
+    environment:
+      node: 24
+      java: 21
+      xcode: 26.5
+      groups:
+        - android_signing
+        - google_play
+        - app_store_connect
+      vars:
+        CI: "true"
+        MOBILE_APP_DIR: "."
+        MOBILE_PACKAGE_MANAGER: "npm"
+        MOBILE_CHANNEL: "beta"
+        MOBILE_TAG_PREFIX: "v"
+        MOBILE_PUBLISH_MODE: "publish"
+        IOS_BUNDLE_ID: "__CAPACITOR_APP_ID__"
+        GOOGLE_PLAY_TRACK: "internal"
+    triggering:
+      events:
+        - tag
+      tag_patterns:
+        - pattern: "v*-*"
+          include: true
+      cancel_previous_builds: false
+    scripts: &build_scripts
+      - *resolve
+      - *install
+      - *web
+      - *sync
+      - *android_sign
+      - *android_build
+      - *ios_sign
+      - *ios_build
+    artifacts:
+      - ./android/app/build/outputs/bundle/release/*.aab
+      - build/ios/ipa/*.ipa
+      - ./build/release-metadata/*.json
+    publishing:
+      google_play:
+        credentials: $GOOGLE_PLAY_SERVICE_ACCOUNT_CREDENTIALS
+        track: $GOOGLE_PLAY_TRACK
+      app_store_connect:
+        api_key: $APP_STORE_CONNECT_PRIVATE_KEY
+        key_id: $APP_STORE_CONNECT_KEY_IDENTIFIER
+        issuer_id: $APP_STORE_CONNECT_ISSUER_ID
+
+  mobile-release:
+    name: Mobile Release (Validated Build)
+    max_build_duration: 120
+    instance_type: mac_mini_m2
+    environment:
+      node: 24
+      java: 21
+      xcode: 26.5
+      groups:
+        - android_signing
+      vars:
+        CI: "true"
+        MOBILE_APP_DIR: "."
+        MOBILE_PACKAGE_MANAGER: "npm"
+        MOBILE_CHANNEL: "release"
+        MOBILE_TAG_PREFIX: "v"
+        MOBILE_PUBLISH_MODE: "build"
+        IOS_BUNDLE_ID: "__CAPACITOR_APP_ID__"
+    triggering:
+      events:
+        - tag
+      tag_patterns:
+        - pattern: "v*"
+          include: true
+        - pattern: "v*-*"
+          include: false
+      cancel_previous_builds: false
+    scripts: *build_scripts
+    artifacts:
+      - ./android/app/build/outputs/bundle/release/*.aab
+      - build/ios/ipa/*.ipa
+      - ./build/release-metadata/*.json
+  mobile-release-publish:
+    name: Mobile Release Publish (Explicit Approval)
+    max_build_duration: 120
+    instance_type: mac_mini_m2
+    environment:
+      node: 24
+      java: 21
+      xcode: 26.5
+      groups:
+        - android_signing
+        - google_play
+        - app_store_connect
+      vars:
+        CI: "true"
+        MOBILE_APP_DIR: "."
+        MOBILE_PACKAGE_MANAGER: "npm"
+        MOBILE_CHANNEL: "release"
+        MOBILE_TAG_PREFIX: "v"
+        MOBILE_PUBLISH_MODE: "publish"
+        MOBILE_APPROVED_TAG: ${{ inputs.approvedTag }}
+        IOS_BUNDLE_ID: "__CAPACITOR_APP_ID__"
+    inputs:
+      approvedTag:
+        description: Enter the exact release tag to approve store publication
+        type: string
+    scripts: *build_scripts
+    artifacts:
+      - ./android/app/build/outputs/bundle/release/*.aab
+      - build/ios/ipa/*.ipa
+      - ./build/release-metadata/*.json
+    publishing:
+      google_play:
+        credentials: $GOOGLE_PLAY_SERVICE_ACCOUNT_CREDENTIALS
+        track: $GOOGLE_PLAY_TRACK
+        submit_as_draft: true
+      app_store_connect:
+        api_key: $APP_STORE_CONNECT_PRIVATE_KEY
+        key_id: $APP_STORE_CONNECT_KEY_IDENTIFIER
+        issuer_id: $APP_STORE_CONNECT_ISSUER_ID

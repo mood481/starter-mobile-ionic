@@ -62,3 +62,10 @@ root's pnpm workspace configuration or lockfile. The receiving workspace must ma
 
 This initial extraction uses the neutral Angular standalone architecture of
 `mood481/azarazam` as reference, not its product code. Native platform tests and CI/CD configuration are deliberately separate from the web test baseline.
+
+## Consumer distribution templates
+
+Codemagic workflows are provided for standalone (root `codemagic.yaml`) and
+module (`codemagic/codemagic.yaml` for manual integration at workspace root).
+They cover beta internal testing and manually staged stable releases; see
+`template/docs/codemagic.md` for credentials, safety constraints, and setup.
