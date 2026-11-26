@@ -7,7 +7,7 @@ Minimal reusable Ionic Angular + Capacitor starter built with `@mood481/starter-
 - Ionic Angular 9.0.11, Angular 22.2.x, Capacitor 8.6.x, TypeScript 6.0.x.
 - Angular standalone bootstrap, router, one neutral home page.
 - Shared `template/`, mode overlays for `standalone` and `module`.
-- No application-specific backend, styling system, web test suite, or CI/CD.
+- No application-specific backend, styling system, or CI/CD.
 - Standalone uses npm from Node, without an npm version pin.
 - Module expects an existing Nx/pnpm workspace; no root mutations.
 - Capacitor `appId` and `appName` are explicit render placeholders.
@@ -29,7 +29,15 @@ docs/examples/                 sample render requests
 repository itself continues to use pnpm, whereas a generated standalone app
 uses npm and a module uses its workspace package manager.
 
-## Local acceptance (no tests yet)
+## Test baseline
+
+The consumer template provides a typed `StorageService` backed by browser
+`localStorage` with an injectable adapter, a minimal global error handler,
+Angular/Vitest unit tests, and Playwright web E2E tests (Chromium).
+Tests live in `template/test/unit` and `template/test/e2e`. Module mode
+adds Nx `test` and `e2e` targets without changing the host configuration.
+
+## Local acceptance
 
 ```bash
 pnpm install
@@ -53,4 +61,4 @@ The module output is confined to `workspace/apps/mobile`. It does not update the
 root's pnpm workspace configuration or lockfile. The receiving workspace must manage its own dependency installation and pnpm `allowBuilds`.
 
 This initial extraction uses the neutral Angular standalone architecture of
-`mood481/azarazam` as reference, not its product code. Tests and additional standard tooling are deliberately deferred until local validation.
+`mood481/azarazam` as reference, not its product code. Native platform tests and CI/CD configuration are deliberately separate from the web test baseline.

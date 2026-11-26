@@ -59,3 +59,34 @@ namespace; the FileProvider authority uses the application ID. Keep these identi
 consistent when refactoring and sync before building.
 
 The Angular foundation includes lazy routes, contextual logging, a plain optional\nBaseMain class, app constants, a connectivity signal service, Ionic feedback\nhelpers, empty/loading states and Transloco dictionaries in Spanish and English.\nChange defaults and add translations in `src/app/app.constants.ts` and\n`src/assets/i18n/`. These translations are copied into `www/assets/i18n/` on build.\n\nThe `examples` page demonstrates these utilities; replace or remove it when\nbuilding a product. The core package does not add storage, advertising tracking,\nthird-party error reporting or authentication. No CI/CD configuration is included.
+
+## Error handling and storage
+
+`GlobalErrorHandler` logs unexpected Angular/browser errors through the contextual
+logger; it does not send telemetry or display user-facing notifications. Handle
+recoverable failures in the feature that owns them.
+
+`StorageService` serializes JSON and exposes asynchronous `get<T>`, `set<T>`,
+and `remove` methods. The default `STORAGE_ADAPTER` uses browser
+`localStorage`; override the injection token with an adapter implementing
+`StorageAdapter` to use Capacitor Preferences or another backend. The generic
+type is not a runtime schema validator. Missing keys resolve to `null`;
+malformed JSON and inaccessible storage raise errors.
+
+## Tests
+
+Unit tests are run by Angular's Vitest builder. The Playwright suite starts
+the web server automatically and uses Chromium.
+
+```bash
+npm run test:unit
+npm run test:unit:watch
+npx playwright install chromium
+npm run test:e2e
+npm run test:e2e:ui
+```
+
+Tests live under `test/unit` and `test/e2e`. The web E2E suite does not
+test native Capacitor behavior, signing or app-store distribution. Run
+`npm run typecheck` and `npm run build` separately. In a pnpm workspace,
+use the equivalent `pnpm run` commands from the module directory.
