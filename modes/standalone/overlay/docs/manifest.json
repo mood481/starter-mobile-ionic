@@ -1,0 +1,49 @@
+{
+  "schemaVersion": 1,
+  "source": {
+    "repository": "mood481/dev-standards",
+    "version": "0.5.2"
+  },
+  "context": [
+    {
+      "type": "rule",
+      "id": "quality",
+      "path": "docs/rules/quality.md",
+      "integrity": "sha256:26e5c3860364b07fb9af87ab91497ab5b417a19373b2638aefd553c9573257a1"
+    },
+    {
+      "type": "rule",
+      "id": "simple-devel",
+      "path": "docs/rules/simple-development.md",
+      "integrity": "sha256:7855cecbfe12b08eb85426511b8262a94b667b5847dc2033fd93ba33064f3c65"
+    },
+    {
+      "type": "guide",
+      "id": "angular",
+      "path": "docs/guides/angular.md",
+      "integrity": "sha256:0e26b48eb106ab27b9d9feda076b628678bb5ba42db18388ac13244b240ff9fe"
+    },
+    {
+      "type": "guide",
+      "id": "ionic-capacitor",
+      "path": "docs/guides/ionic-capacitor.md",
+      "integrity": "sha256:64758c690f3eb6ec96e6b58dac64ec5fb34a192c0e1e7fab8bb17bb93fb1b50c"
+    },
+    {
+      "type": "guide",
+      "id": "ts-js",
+      "path": "docs/guides/typescript-javascript.md",
+      "integrity": "sha256:e6bc07f121ba02cef8f799c5b491e77f7dd9c473db806a718a351a14d11e8009"
+    },
+    {
+      "type": "operation",
+      "id": "codemagic",
+      "path": "docs/operations/codemagic.md"
+    },
+    {
+      "type": "adr",
+      "id": "base-class-inheritance",
+      "path": "docs/adrs/base-class-inheritance.md"
+    }
+  ]
+}

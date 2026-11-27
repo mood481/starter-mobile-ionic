@@ -103,10 +103,36 @@ use the equivalent `pnpm run` commands from the module directory.
 
 The standalone template includes a root `codemagic.yaml`; for module mode,
 merge `codemagic/codemagic.yaml` manually into the workspace root.
-Review `docs/codemagic.md` before connecting signing credentials or enabling
+Review `docs/operations/codemagic.md` before connecting signing credentials or enabling
 beta tags. Beta tags upload signed builds to the stores using configurable
 project distribution settings; release tags build and validate only. Store
 upload for releases requires a separate manually approved workflow started
 from the exact tag.
 
 Validate release identity locally with `npm run test:release` (or pnpm).
+
+## Development standards (standalone)
+
+The generated repository includes `docs/manifest.json`, with the
+`simple-devel` and `quality` rules and the `ts-js`, `angular`,
+and `ionic-capacitor` guides, materialized from
+`@mood481/dev-standards@0.5.2`. Read the manifest and applicable documents
+before changing the app; no `AGENTS.md` is installed.
+
+`docs/adrs/base-class-inheritance.md` and
+`docs/operations/codemagic.md` are project-owned context, indexed but not
+overwritten by standards updates. The standards package is **not** a
+`devDependency`. With access configured to the `@mood481` Gitea npm
+registry, run on demand:
+
+```bash
+npx --yes @mood481/dev-standards@0.5.2 check
+# Or: pnpm dlx @mood481/dev-standards@0.5.2 check
+
+# To update in the future, use an explicitly selected newer version:
+npx --yes @mood481/dev-standards@<version> update
+```
+
+The registry scope requires suitable package-read authorization. Keep tokens
+out of committed files. If the registry is unavailable, the installed Markdown
+documents remain usable without invoking the CLI.

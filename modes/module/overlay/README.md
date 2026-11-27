@@ -64,3 +64,17 @@ and run `pnpm run test:e2e`. Run `pnpm run test:release` to check
 release-tag policy. Nx targets `test` and `e2e` are also included.
 All tests and configuration are contained in this module; the host's root
 configuration is not changed.
+
+## Module documentation and standards
+
+This module includes copies of `docs/guides/ts-js` (file:
+`docs/guides/typescript-javascript.md`), `angular` and `ionic-capacitor`,
+plus the local `docs/adrs/base-class-inheritance.md` and
+`docs/operations/codemagic.md`.
+
+These are module-scoped references, **not** an independent installation of
+`dev-standards`: no `docs/manifest.json`, package dependency, or
+`AGENTS.md` is added. The host workspace's canonical standards, ADRs and
+operations take precedence when they disagree. Integrating or updating these
+copies within the host's own standards manifest is an explicit host decision.
+Do not invoke `dev-standards check/update` against the module directory.

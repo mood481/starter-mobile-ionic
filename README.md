@@ -69,18 +69,29 @@ Codemagic workflows are provided for standalone (root `codemagic.yaml`) and
 module (`codemagic/codemagic.yaml` for manual integration at workspace root).
 They cover configurable beta store distribution, tag-triggered release validation
 and a separate manually authorized release upload; see
-`template/docs/codemagic.md` for credentials, safety constraints, and setup.
+`template/docs/operations/codemagic.md` for credentials, safety constraints, and setup.
 
 ## Authoring standards
 
-The **starter authoring repository** installs `@mood481/dev-standards@0.5.1`
-as a development dependency, with `simple-devel`, `quality`, `ts-js` and
-`angular`. `pnpm validate` checks both the starter manifest and installed
+The **starter authoring repository** installs `@mood481/dev-standards@0.5.2`
+as a development dependency, with `simple-devel`, `quality`, `ts-js`, `angular` and `ionic-capacitor`. `pnpm validate` checks both the starter manifest and installed
 standards; `pnpm standards:check` checks the standards alone. Consult
 `docs/manifest.json` and its applicable rules, guides and local context before
 making changes. The optional `AGENTS.md` entrypoint is intentionally absent.
 
 The local criteria for permitted base classes and inheritance are recorded in
-`docs/adrs/base-class-inheritance.md`. This authoring selection is **not
-copied into the generated module or standalone app**; adoption by consumers
-is a separate template decision.
+`docs/adrs/base-class-inheritance.md`. The generated app receives a consumer-
+neutral copy of this ADR, alongside the three technology guides and Codemagic
+operations. Standalone additionally receives an independent `docs/manifest.json`
+with materialized rules and guides. Module mode has no separate standards
+manifest or package dependency; the host workspace owns that policy.
+
+## Documentation distribution
+
+The shared `template/docs/` holds the three technology guides and two
+consumer-owned documents for both modes. Standalone adds `docs/manifest.json`
+and `simple-devel`/`quality` from its overlay; module adds neither. No
+consumer depends on `@mood481/dev-standards` for install/build. Standalone
+can run its CLI on demand through `npx` or `pnpm dlx` when registry access is
+available. Managed guides should be refreshed from the author's installed
+`dev-standards` version; do not hand-edit them.
