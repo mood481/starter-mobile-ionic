@@ -21,7 +21,7 @@
         "@mood481/starter-contracts": "^0.5.1",
         "@mood481/starter-validator": "^0.5.1",
         "@mood481/starter-publish-tools": "^0.1.1",
-        "@mood481/dev-standards": "0.5.1"
+        "@mood481/dev-standards": "0.5.2"
     },
     "publishConfig": {
         "access": "public"
