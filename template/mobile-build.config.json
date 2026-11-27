@@ -1,0 +1,4 @@
+{
+  "android": { "buildNumberOffset": __ANDROID_BUILD_NUMBER_OFFSET__ },
+  "ios": { "buildNumberOffset": __IOS_BUILD_NUMBER_OFFSET__ }
+}

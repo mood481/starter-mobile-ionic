@@ -95,3 +95,13 @@ consumer depends on `@mood481/dev-standards` for install/build. Standalone
 can run its CLI on demand through `npx` or `pnpm dlx` when registry access is
 available. Managed guides should be refreshed from the author's installed
 `dev-standards` version; do not hand-edit them.
+
+## Render-time native configuration
+
+The render examples explicitly specify `NODE_VERSION`, `JAVA_VERSION`,
+`XCODE_VERSION` and independent native build-number offsets. Module mode
+also requires `PNPM_VERSION`. The shared `mobile-build.config.json`
+contains the offsets; the Codemagic `PROJECT_BUILD_NUMBER` is the base,
+with optional platform-specific environment overrides. The standalone
+render generates its own `.nvmrc`; the authoring repository's file is
+not changed.

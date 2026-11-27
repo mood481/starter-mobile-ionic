@@ -136,3 +136,10 @@ npx --yes @mood481/dev-standards@<version> update
 The registry scope requires suitable package-read authorization. Keep tokens
 out of committed files. If the registry is unavailable, the installed Markdown
 documents remain usable without invoking the CLI.
+
+## Native build numbers
+
+The render request sets separate Android/iOS offsets in
+`mobile-build.config.json`. Codemagic uses `PROJECT_BUILD_NUMBER` as its
+base, with optional `ANDROID_BUILD_NUMBER` and `IOS_BUILD_NUMBER`
+environment overrides. See `docs/operations/codemagic.md`.

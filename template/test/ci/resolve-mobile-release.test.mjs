@@ -4,7 +4,7 @@ import { mkdtempSync, rmSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { execFileSync } from 'node:child_process';
-import { resolveMobileBuild, verifyTaggedSource } from '../../scripts/ci/resolve-mobile-release.mjs';
+import { resolveMobileBuild, resolveNativeBuildNumbers, verifyTaggedSource } from '../../scripts/ci/resolve-mobile-release.mjs';
 
 const commit = 'a'.repeat(40);
 const defaults = {
@@ -17,6 +17,8 @@ test('standalone and module accept matching prerelease tags without package suff
   for (const data of [defaults, mod]) {
     const result = resolveMobileBuild(data);
     assert.equal(result.nativeVersion, '1.2.3');
+    assert.equal(result.androidBuildNumber, '41');
+    assert.equal(result.iosBuildNumber, '41');
     assert.equal(result.mobileVersion, data.tag.slice(data.tagPrefix.length));
     assert.equal(result.requiredBranch, 'devel');
   }
@@ -83,4 +85,25 @@ test('tag source must belong to expected branch; tag name is not proof', (t) => 
   });
   git(local, 'tag', 'v1.2.3');
   assert.throws(() => verifyTaggedSource(stable, local), /not reachable/);
+});
+
+test('native offsets are independent and overridable', () => {
+  const input = { buildNumber: '52', androidOffset: 1000, iosOffset: 20 };
+  assert.deepEqual(resolveNativeBuildNumbers(input), {
+    projectBuildNumber: '52', androidBuildNumber: '1052', iosBuildNumber: '72',
+  });
+  assert.deepEqual(resolveNativeBuildNumbers({ ...input, androidOverride: '5000', iosOverride: '700' }), {
+    projectBuildNumber: '52', androidBuildNumber: '5000', iosBuildNumber: '700',
+  });
+});
+
+test('native numbers reject invalid input and overflow', () => {
+  const input = { buildNumber: '10', androidOffset: 0, iosOffset: 0 };
+  assert.throws(() => resolveNativeBuildNumbers({ ...input, androidOverride: '0' }), /range/);
+  assert.throws(() => resolveNativeBuildNumbers({ ...input, iosOverride: '-1' }), /integer/);
+  assert.throws(() => resolveNativeBuildNumbers({ ...input, iosOffset: -1 }), /integer/);
+  assert.throws(() => resolveNativeBuildNumbers({ ...input, androidOffset: '1.5' }), /integer/);
+  assert.throws(() => resolveNativeBuildNumbers({ ...input, buildNumber: '10.5' }), /integer/);
+  assert.throws(() => resolveNativeBuildNumbers({ ...input, buildNumber: '2100000000', androidOffset: 1 }), /exceeds/);
+  assert.throws(() => resolveNativeBuildNumbers({ ...input, iosOverride: '2100000001' }), /range/);
 });

@@ -1,4 +1,4 @@
-# Codemagic template. See docs/codemagic.md before enabling store credentials.
+# Codemagic template. See docs/operations/codemagic.md before enabling store credentials.
 definitions:
   scripts:
     - &resolve
@@ -13,7 +13,7 @@ definitions:
           (cd "$MOBILE_APP_DIR" && npm ci)
         else
           test -f pnpm-lock.yaml || { echo "Commit host pnpm-lock.yaml"; exit 1; }
-          npm install --global pnpm@11.25.0
+          npm install --global pnpm@__PNPM_VERSION__
           pnpm install --frozen-lockfile
         fi
     - &web
@@ -75,7 +75,7 @@ definitions:
           -Pandroid.injected.signing.key.alias="$CM_KEY_ALIAS" \
           -Pandroid.injected.signing.key.password="$CM_KEY_PASSWORD" \
           -PversionName="$VERSION_NAME" \
-          -PversionCode="$VERSION_CODE"
+          -PversionCode="$ANDROID_VERSION_CODE"
         test -f app/build/outputs/bundle/release/app-release.aab
         jarsigner -verify app/build/outputs/bundle/release/app-release.aab
     - &ios_sign
@@ -94,7 +94,7 @@ definitions:
       name: Build signed iOS IPA with SPM
       script: |
         set -eu
-        (cd "$MOBILE_APP_DIR/ios/App" && agvtool new-marketing-version "$VERSION_NAME" && agvtool new-version -all "$VERSION_CODE")
+        (cd "$MOBILE_APP_DIR/ios/App" && agvtool new-marketing-version "$VERSION_NAME" && agvtool new-version -all "$IOS_BUILD_NUMBER")
         xcode-project build-ipa --project "$MOBILE_APP_DIR/ios/App/App.xcodeproj" --scheme App
 
 workflows:
@@ -103,9 +103,9 @@ workflows:
     max_build_duration: 120
     instance_type: mac_mini_m2
     environment:
-      node: 24
-      java: 21
-      xcode: 26.5
+      node: __NODE_VERSION__
+      java: __JAVA_VERSION__
+      xcode: __XCODE_VERSION__
       groups:
         - android_signing
         - google_play
@@ -153,9 +153,9 @@ workflows:
     max_build_duration: 120
     instance_type: mac_mini_m2
     environment:
-      node: 24
-      java: 21
-      xcode: 26.5
+      node: __NODE_VERSION__
+      java: __JAVA_VERSION__
+      xcode: __XCODE_VERSION__
       groups:
         - android_signing
       vars:
@@ -185,9 +185,9 @@ workflows:
     max_build_duration: 120
     instance_type: mac_mini_m2
     environment:
-      node: 24
-      java: 21
-      xcode: 26.5
+      node: __NODE_VERSION__
+      java: __JAVA_VERSION__
+      xcode: __XCODE_VERSION__
       groups:
         - android_signing
         - google_play
@@ -200,6 +200,7 @@ workflows:
         MOBILE_TAG_PREFIX: "mobile/v"
         MOBILE_PUBLISH_MODE: "publish"
         MOBILE_APPROVED_TAG: ${{ inputs.approvedTag }}
+        GOOGLE_PLAY_TRACK: "production"
         IOS_BUNDLE_ID: "__CAPACITOR_APP_ID__"
     inputs:
       approvedTag:

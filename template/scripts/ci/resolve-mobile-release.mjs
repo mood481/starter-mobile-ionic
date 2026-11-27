@@ -8,6 +8,46 @@ const applicationRoot = resolve(dirname(fileURLToPath(import.meta.url)), '../..'
 const prereleasePart = '(?:0|[1-9]\\d*|[0-9A-Za-z-]*[A-Za-z-][0-9A-Za-z-]*)';
 const semver = new RegExp('^(0|[1-9]\\d*)\\.(0|[1-9]\\d*)\\.(0|[1-9]\\d*)(?:-(' + prereleasePart + '(?:\\.' + prereleasePart + ')*))?$');
 
+const maxNativeBuildNumber = 2100000000;
+
+function parseNativeInteger(value, name, allowZero = false) {
+  if (!/^(0|[1-9]\d*)$/.test(String(value ?? ''))) {
+    throw new Error(name + ' must be a non-negative decimal integer');
+  }
+  const parsed = Number(value);
+  if (!Number.isSafeInteger(parsed) || parsed > maxNativeBuildNumber || (!allowZero && parsed === 0)) {
+    throw new Error(name + ' must be within the supported native build-number range');
+  }
+  return parsed;
+}
+
+/**
+ * Use Codemagic's app-wide counter and independent platform offsets.
+ * Explicit overrides support controlled migrations and recovery builds.
+ */
+export function resolveNativeBuildNumbers(input) {
+  const base = parseNativeInteger(input.buildNumber, 'PROJECT_BUILD_NUMBER');
+  const androidOffset = parseNativeInteger(input.androidOffset ?? 0, 'android.buildNumberOffset', true);
+  const iosOffset = parseNativeInteger(input.iosOffset ?? 0, 'ios.buildNumberOffset', true);
+
+  const platformNumber = (override, offset, name) => {
+    if (override !== undefined && override !== '') {
+      return String(parseNativeInteger(override, name));
+    }
+    const value = base + offset;
+    if (value > maxNativeBuildNumber) {
+      throw new Error(name + ' exceeds the supported native build-number range');
+    }
+    return String(value);
+  };
+
+  return {
+    projectBuildNumber: String(base),
+    androidBuildNumber: platformNumber(input.androidOverride, androidOffset, 'ANDROID_BUILD_NUMBER'),
+    iosBuildNumber: platformNumber(input.iosOverride, iosOffset, 'IOS_BUILD_NUMBER'),
+  };
+}
+
 export function resolveMobileBuild(input) {
   const match = semver.exec(input.packageVersion ?? '');
   if (!match) {
@@ -54,10 +94,13 @@ export function resolveMobileBuild(input) {
   if (channel === 'release' && publishMode === 'build' && input.approvedTag) {
     throw new Error('A release build cannot carry a publication approval');
   }
-  const buildNumber = Number(input.buildNumber);
-  if (!Number.isSafeInteger(buildNumber) || buildNumber < 1 || buildNumber > 2100000000) {
-    throw new Error('PROJECT_BUILD_NUMBER must be a positive Android-compatible integer');
-  }
+  const nativeNumbers = resolveNativeBuildNumbers({
+    buildNumber: input.buildNumber,
+    androidOffset: input.androidOffset,
+    iosOffset: input.iosOffset,
+    androidOverride: input.androidOverride,
+    iosOverride: input.iosOverride,
+  });
   if (!/^[a-f0-9]{40}$/.test(input.commit ?? '')) {
     throw new Error('CM_COMMIT must identify an exact Git commit');
   }
@@ -66,7 +109,7 @@ export function resolveMobileBuild(input) {
     publishMode,
     mobileVersion: tagVersion,
     nativeVersion,
-    nativeBuildNumber: String(buildNumber),
+    ...nativeNumbers,
     source: input.commit,
     tag,
     requiredBranch: channel === 'beta' ? 'devel' : 'main',
@@ -113,12 +156,20 @@ export function verifyTaggedSource(release, cwd = process.cwd()) {
 
 function main() {
   const pkg = JSON.parse(readFileSync(join(applicationRoot, 'package.json'), 'utf8'));
+  const buildConfig = JSON.parse(readFileSync(join(applicationRoot, 'mobile-build.config.json'), 'utf8'));
+  if (!buildConfig || typeof buildConfig !== 'object' || !buildConfig.android || !buildConfig.ios) {
+    throw new Error('Invalid mobile-build.config.json');
+  }
   const release = resolveMobileBuild({
     packageVersion: pkg.version,
     channel: process.env.MOBILE_CHANNEL,
     tagPrefix: process.env.MOBILE_TAG_PREFIX,
     tag: process.env.CM_TAG,
     buildNumber: process.env.PROJECT_BUILD_NUMBER,
+    androidOffset: buildConfig.android.buildNumberOffset,
+    iosOffset: buildConfig.ios.buildNumberOffset,
+    androidOverride: process.env.ANDROID_BUILD_NUMBER,
+    iosOverride: process.env.IOS_BUILD_NUMBER,
     commit: process.env.CM_COMMIT,
     publishMode: process.env.MOBILE_PUBLISH_MODE,
     approvedTag: process.env.MOBILE_APPROVED_TAG,
@@ -130,7 +181,8 @@ function main() {
   }
   appendFileSync(env, [
     'VERSION_NAME=' + release.nativeVersion,
-    'VERSION_CODE=' + release.nativeBuildNumber,
+    'ANDROID_VERSION_CODE=' + release.androidBuildNumber,
+    'IOS_BUILD_NUMBER=' + release.iosBuildNumber,
     'MOBILE_RELEASE_VERSION=' + release.mobileVersion,
   ].join('\n') + '\n');
   const path = join(applicationRoot, 'build/release-metadata/distribution.json');

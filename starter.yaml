@@ -7,6 +7,24 @@ modes:
     overlay:
       path: modes/standalone/overlay
   module:
+    placeholders:
+      required:
+        - PROJECT_NAME
+        - PROJECT_SLUG
+        - PROJECT_DESCRIPTION
+        - CAPACITOR_APP_ID
+        - CAPACITOR_APP_NAME
+      - NODE_VERSION
+      - JAVA_VERSION
+      - XCODE_VERSION
+      - ANDROID_BUILD_NUMBER_OFFSET
+      - IOS_BUILD_NUMBER_OFFSET
+        - NODE_VERSION
+        - JAVA_VERSION
+        - XCODE_VERSION
+        - ANDROID_BUILD_NUMBER_OFFSET
+        - IOS_BUILD_NUMBER_OFFSET
+        - PNPM_VERSION
     requires:
       - workspace
       - nx

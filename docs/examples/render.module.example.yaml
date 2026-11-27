@@ -10,3 +10,9 @@ placeholders:
   PROJECT_DESCRIPTION: An Ionic Angular mobile application inside an Nx workspace.
   CAPACITOR_APP_ID: com.example.mobile
   CAPACITOR_APP_NAME: Example Mobile
+  NODE_VERSION: "24"
+  JAVA_VERSION: "21"
+  XCODE_VERSION: "26.5"
+  ANDROID_BUILD_NUMBER_OFFSET: 0
+  IOS_BUILD_NUMBER_OFFSET: 0
+  PNPM_VERSION: "11.25.0"

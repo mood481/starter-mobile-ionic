@@ -31,8 +31,7 @@ The prerelease label can be any valid SemVer prerelease, for example
 The declared `package.json` version may be just `1.2.0` for both
 beta and release. A package version with a prerelease suffix is also
 accepted if it exactly matches the tag. The native version (`versionName`
-and `MARKETING_VERSION`) is the plain `X.Y.Z`; build counters are
-Codemagic numeric `PROJECT_BUILD_NUMBER`. Keep any independently declared
+and `MARKETING_VERSION`) is the plain `X.Y.Z`; build counters are derived from Codemagic's numeric `PROJECT_BUILD_NUMBER`. Keep any independently declared
 public app version or environment version synchronized with `X.Y.Z`.
 
 ## Beta distribution (automatic)
@@ -124,3 +123,30 @@ References:
 - https://docs.codemagic.io/knowledge-codemagic/build-inputs/
 - https://docs.codemagic.io/yaml-publishing/google-play/
 - https://docs.codemagic.io/yaml-publishing/app-store-connect/
+
+## Toolchain and native build-number configuration
+
+The render request provides `NODE_VERSION`, `JAVA_VERSION`, and
+`XCODE_VERSION` for Codemagic. Standalone also receives a generated `.nvmrc`.
+Module mode additionally specifies `PNPM_VERSION` for Codemagic's pnpm
+installation; it does not change the workspace's package-manager settings.
+
+The shared `mobile-build.config.json` holds the independent Android and iOS
+build-number offsets selected at render time. In each CI execution the required
+base counter is `PROJECT_BUILD_NUMBER`. The resolver computes:
+
+- `ANDROID_VERSION_CODE = PROJECT_BUILD_NUMBER + android.buildNumberOffset`
+- `IOS_BUILD_NUMBER = PROJECT_BUILD_NUMBER + ios.buildNumberOffset`
+
+Explicit `ANDROID_BUILD_NUMBER` and `IOS_BUILD_NUMBER` environment values
+override the computed number for that platform. These should only be used
+for controlled migrations or recovery builds. The project counter must remain
+present to identify the CI execution even when an override is used.
+
+The resolver validates positive decimal numbers and limits both resulting
+platform build numbers to 2,100,000,000 (a deliberately conservative shared
+policy, not a claim that both stores have identical format requirements).
+Store-side uniqueness and monotonic progression remain the consumer's
+responsibility. The public native version remains `X.Y.Z`, including for
+beta tags; the approval workflow recompiles and can therefore produce
+different native build numbers than the first release build.

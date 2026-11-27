@@ -78,3 +78,10 @@ These are module-scoped references, **not** an independent installation of
 operations take precedence when they disagree. Integrating or updating these
 copies within the host's own standards manifest is an explicit host decision.
 Do not invoke `dev-standards check/update` against the module directory.
+
+## Toolchain and build-number settings
+
+The render request specifies Codemagic Node, Java and Xcode versions and the
+pnpm version for workspace installation; it does not alter host tooling.
+Build-number offsets live in `mobile-build.config.json`. See
+`docs/operations/codemagic.md` for precedence and constraints.
