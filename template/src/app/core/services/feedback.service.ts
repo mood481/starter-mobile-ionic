@@ -3,10 +3,9 @@ import { TranslocoService } from '@jsverse/transloco';
 import { AlertController, ToastController, type ToastOptions } from '@ionic/angular';
 import { firstValueFrom } from 'rxjs';
 import { AppConfig } from '../../app.constants';
-import { BaseMain } from '../base/base-main';
 
 @Injectable({ providedIn: 'root' })
-export class FeedbackService extends BaseMain {
+export class FeedbackService {
   private readonly alerts = inject(AlertController);
   private readonly toasts = inject(ToastController);
   private readonly i18n = inject(TranslocoService);

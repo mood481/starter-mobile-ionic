@@ -28,7 +28,7 @@ After installing dependencies, build the web assets and sync the target platform
 npm run build
 npm run sync:android
 npm run sync:ios        # macOS with Xcode
-npm run doctor
+npm run cap:doctor
 npm run open:android    # Android Studio
 npm run open:ios        # macOS with Xcode
 ```
@@ -58,7 +58,15 @@ under `src/main/java`, `src/test/java` and `src/androidTest/java`, and update th
 namespace; the FileProvider authority uses the application ID. Keep these identities
 consistent when refactoring and sync before building.
 
-The Angular foundation includes lazy routes, contextual logging, a plain optional\nBaseMain class, app constants, a connectivity signal service, Ionic feedback\nhelpers, empty/loading states and Transloco dictionaries in Spanish and English.\nChange defaults and add translations in `src/app/app.constants.ts` and\n`src/assets/i18n/`. These translations are copied into `www/assets/i18n/` on build.\n\nThe `examples` page demonstrates these utilities; replace or remove it when\nbuilding a product. The core package does not add storage, advertising tracking,\nthird-party error reporting or authentication. No CI/CD configuration is included.
+The Angular foundation includes lazy routes, contextual logging, a plain optional
+BaseMain class, app constants, a connectivity signal service, Ionic feedback
+helpers, empty/loading states and Transloco dictionaries in Spanish and English.
+Change defaults and add translations in `src/app/app.constants.ts` and
+`src/assets/i18n/`. These translations are copied into `www/assets/i18n/` on build.
+
+The `examples` page demonstrates these utilities; replace or remove it when
+building a product. The foundation does not add advertising tracking, third-party error reporting,
+backend APIs or authentication. Codemagic templates are included; see below.
 
 ## Error handling and storage
 

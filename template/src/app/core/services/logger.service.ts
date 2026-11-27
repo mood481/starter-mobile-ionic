@@ -14,7 +14,9 @@ export class LoggerService {
     const prefix = `[${context}]`;
     return {
       d: (...args: unknown[]) => {
-        if (AppConfig.LOG_DEBUG) console.debug(prefix, ...args);
+        if (AppConfig.LOG_DEBUG) {
+          console.debug(prefix, ...args);
+        }
       },
       w: (...args: unknown[]) => console.warn(prefix, ...args),
       e: (...args: unknown[]) => console.error(prefix, ...args),

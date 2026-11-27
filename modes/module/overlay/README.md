@@ -35,7 +35,7 @@ projects are intentionally not tracked; sync restores them before native builds.
 
 The included Capacitor plugins are app, browser, device, haptics, keyboard,
 network and splash-screen. Keyboard uses default configuration. SystemBars is
-available from Capacitor core. Use `pnpm run assets` (or `pnpm run assets`) after
+available from Capacitor core. Use `pnpm run assets` after
 adding your own source artwork in `assets/`; neutral native resources are included.
 
 Capacitor identity:
@@ -60,6 +60,7 @@ installed.
 
 After installing workspace dependencies, run `pnpm run test:unit` for Vitest.
 For Playwright, install Chromium once with `pnpm exec playwright install chromium`
-and run `pnpm run test:e2e`. Nx targets `test` and `e2e` are also included.
+and run `pnpm run test:e2e`. Run `pnpm run test:release` to check
+release-tag policy. Nx targets `test` and `e2e` are also included.
 All tests and configuration are contained in this module; the host's root
 configuration is not changed.

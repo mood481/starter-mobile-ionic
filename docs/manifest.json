@@ -33,6 +33,11 @@
       "type": "operation",
       "id": "publishing",
       "path": "docs/operations/publishing.md"
+    },
+    {
+      "type": "adr",
+      "id": "base-class-inheritance",
+      "path": "docs/adrs/base-class-inheritance.md"
     }
   ]
 }

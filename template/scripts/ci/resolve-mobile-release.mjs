@@ -10,17 +10,23 @@ const semver = new RegExp('^(0|[1-9]\\d*)\\.(0|[1-9]\\d*)\\.(0|[1-9]\\d*)(?:-(' 
 
 export function resolveMobileBuild(input) {
   const match = semver.exec(input.packageVersion ?? '');
-  if (!match) throw new Error('Package version must be a valid SemVer X.Y.Z or prerelease');
+  if (!match) {
+    throw new Error('Package version must be a valid SemVer X.Y.Z or prerelease');
+  }
   const nativeVersion = [match[1], match[2], match[3]].join('.');
   const prefix = input.tagPrefix;
   if (!['v', 'mobile/v'].includes(prefix)) {
     throw new Error('MOBILE_TAG_PREFIX must be v or mobile/v');
   }
   const tag = input.tag ?? '';
-  if (!tag.startsWith(prefix)) throw new Error('Release tag has an unexpected prefix');
+  if (!tag.startsWith(prefix)) {
+    throw new Error('Release tag has an unexpected prefix');
+  }
   const tagVersion = tag.slice(prefix.length);
   const tagMatch = semver.exec(tagVersion);
-  if (!tagMatch) throw new Error('Release tag must contain a valid SemVer version');
+  if (!tagMatch) {
+    throw new Error('Release tag must contain a valid SemVer version');
+  }
   const tagCore = [tagMatch[1], tagMatch[2], tagMatch[3]].join('.');
   if (tagCore !== nativeVersion) {
     throw new Error('Release tag core version must match package.json');
@@ -77,15 +83,23 @@ function git(cwd, args) {
  */
 export function verifyTaggedSource(release, cwd = process.cwd()) {
   const head = git(cwd, ['rev-parse', 'HEAD']);
-  if (head !== release.source) throw new Error('Checked-out HEAD is not CM_COMMIT');
+  if (head !== release.source) {
+    throw new Error('Checked-out HEAD is not CM_COMMIT');
+  }
   const target = git(cwd, ['rev-list', '-n', '1', 'refs/tags/' + release.tag]);
-  if (target !== release.source) throw new Error('Tag does not identify CM_COMMIT');
+  if (target !== release.source) {
+    throw new Error('Tag does not identify CM_COMMIT');
+  }
 
   const branch = release.requiredBranch;
-  if (!['devel', 'main'].includes(branch)) throw new Error('Unexpected release source branch');
+  if (!['devel', 'main'].includes(branch)) {
+    throw new Error('Unexpected release source branch');
+  }
   const shallow = git(cwd, ['rev-parse', '--is-shallow-repository']) === 'true';
   const fetchArgs = ['fetch', '--no-tags'];
-  if (shallow) fetchArgs.push('--unshallow');
+  if (shallow) {
+    fetchArgs.push('--unshallow');
+  }
   fetchArgs.push('origin', '+refs/heads/' + branch + ':refs/remotes/origin/' + branch);
   git(cwd, fetchArgs);
 
@@ -111,7 +125,9 @@ function main() {
   });
   verifyTaggedSource(release, process.env.CM_BUILD_DIR ?? process.cwd());
   const env = process.env.CM_ENV;
-  if (!env) throw new Error('CM_ENV is required');
+  if (!env) {
+    throw new Error('CM_ENV is required');
+  }
   appendFileSync(env, [
     'VERSION_NAME=' + release.nativeVersion,
     'VERSION_CODE=' + release.nativeBuildNumber,

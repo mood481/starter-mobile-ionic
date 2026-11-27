@@ -5,9 +5,9 @@ Minimal reusable Ionic Angular + Capacitor starter built with `@mood481/starter-
 ## Baseline
 
 - Ionic Angular 9.0.11, Angular 22.2.x, Capacitor 8.6.x, TypeScript 6.0.x.
-- Angular standalone bootstrap, router, one neutral home page.
+- Angular standalone bootstrap, lazy routing, minimal home and example pages.
 - Shared `template/`, mode overlays for `standalone` and `module`.
-- No application-specific backend, styling system, or CI/CD.
+- No application-specific backend or styling system; optional consumer Codemagic templates are included.
 - Standalone uses npm from Node, without an npm version pin.
 - Module expects an existing Nx/pnpm workspace; no root mutations.
 - Capacitor `appId` and `appName` are explicit render placeholders.
@@ -67,5 +67,20 @@ This initial extraction uses the neutral Angular standalone architecture of
 
 Codemagic workflows are provided for standalone (root `codemagic.yaml`) and
 module (`codemagic/codemagic.yaml` for manual integration at workspace root).
-They cover beta internal testing and manually staged stable releases; see
+They cover configurable beta store distribution, tag-triggered release validation
+and a separate manually authorized release upload; see
 `template/docs/codemagic.md` for credentials, safety constraints, and setup.
+
+## Authoring standards
+
+The **starter authoring repository** installs `@mood481/dev-standards@0.5.1`
+as a development dependency, with `simple-devel`, `quality`, `ts-js` and
+`angular`. `pnpm validate` checks both the starter manifest and installed
+standards; `pnpm standards:check` checks the standards alone. Consult
+`docs/manifest.json` and its applicable rules, guides and local context before
+making changes. The optional `AGENTS.md` entrypoint is intentionally absent.
+
+The local criteria for permitted base classes and inheritance are recorded in
+`docs/adrs/base-class-inheritance.md`. This authoring selection is **not
+copied into the generated module or standalone app**; adoption by consumers
+is a separate template decision.

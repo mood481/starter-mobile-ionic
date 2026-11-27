@@ -26,9 +26,15 @@ export class ConnectivityService extends BaseMain {
         await listener.remove();
         return;
       }
-      this.destroyRef.onDestroy(() => { void listener.remove(); });
+      this.destroyRef.onDestroy(() => {
+        void listener.remove().catch((error: unknown) => {
+          this.log.w('Unable to remove network listener', error);
+        });
+      });
       const { connected } = await Network.getStatus();
-      if (!this.destroyRef.destroyed) this.state.set(connected ? 'online' : 'offline');
+      if (!this.destroyRef.destroyed) {
+        this.state.set(connected ? 'online' : 'offline');
+      }
     } catch (error) {
       this.log.w('Unable to read network status', error);
     }

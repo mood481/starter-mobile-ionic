@@ -11,7 +11,8 @@
     },
     "scripts": {
         "starter:validate": "starter-validate --type starter starter.yaml",
-        "validate": "starter-validate --type starter starter.yaml"
+        "validate": "starter-validate --type starter starter.yaml && dev-standards check",
+        "standards:check": "dev-standards check"
     },
     "dependencies": {
         "@mood481/starter-renderer": "^0.5.3"
