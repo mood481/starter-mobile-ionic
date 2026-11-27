@@ -12,6 +12,9 @@ importers:
         specifier: ^0.5.3
         version: 0.5.3
     devDependencies:
+      '@mood481/dev-standards':
+        specifier: 0.5.1
+        version: 0.5.1
       '@mood481/starter-contracts':
         specifier: ^0.5.1
         version: 0.5.1
@@ -23,6 +26,10 @@ importers:
         version: 0.5.1
 
 packages:
+
+  '@mood481/dev-standards@0.5.1':
+    resolution: {integrity: sha512-MkyHy9gFh6suiZbgcvbmK4OcGLyMprj+KO7FiaGe8Ydcsue8pgJJ67QSCVFtOxAfgAUKEvIoafYTHi8zEb9Ffg==, tarball: https://git.mood481.es/api/packages/mood/npm/%40mood481%2Fdev-standards/-/0.5.1/dev-standards-0.5.1.tgz}
+    hasBin: true
 
   '@mood481/starter-contracts@0.5.1':
     resolution: {integrity: sha512-DDRYu5ZIr9tmgoK6zm8mp3QkXXVRx5HRJASzaNmo8TmRzRMLjkSV5IoKGrgQoV4mhiYvatPMzrPCtltToIH2rA==, tarball: https://git.mood481.es/api/packages/mood/npm/%40mood481%2Fstarter-contracts/-/0.5.1/starter-contracts-0.5.1.tgz}
@@ -61,6 +68,8 @@ packages:
     hasBin: true
 
 snapshots:
+
+  '@mood481/dev-standards@0.5.1': {}
 
   '@mood481/starter-contracts@0.5.1': {}
 
